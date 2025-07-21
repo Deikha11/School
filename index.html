@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darunasaih Primary and Secondary School</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins for headings, Inter for body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles to integrate fonts and define custom colors */
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-gray-50 text-gray-800; /* Light background, dark text */
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            @apply text-blue-900; /* Dark blue for headings */
+        }
+
+        /* Specific styles for active navigation link */
+        .nav-link.active {
+            @apply text-yellow-500 font-semibold; /* Stronger yellow for active link */
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Adjust as needed */
+            width: 100%;
+            height: 3px;
+            @apply bg-yellow-500;
+            border-radius: 2px;
+        }
+
+        /* Hide sections by default for JS navigation */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Hamburger menu specific styles */
+        #mobile-menu {
+            display: none;
+        }
+        #mobile-menu.active {
+            display: flex; /* Changed from block to flex for better centering */
+            flex-direction: column;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Add padding for small screens */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px; /* Max width for content */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+            max-height: 90vh; /* Limit height for scrollable content */
+            overflow-y: auto; /* Enable scrolling for modal content */
+        }
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-body h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #1A2B4D;
+        }
+        .modal-body p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .modal-body ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .modal-body ul li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="bg-[#1A2B4D] text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#home" class="text-3xl md:text-4xl font-extrabold text-[#FCA311]">Darunasaih School</a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 text-lg">
+                <a href="#home" class="nav-link hover:text-yellow-400 transition-colors">Home</a>
+                <a href="#about" class="nav-link hover:text-yellow-400 transition-colors">About Us</a>
+                <a href="#academics" class="nav-link hover:text-yellow-400 transition-colors">Academics</a>
+                <a href="#admissions" class="nav-link hover:text-yellow-400 transition-colors">Admissions</a>
+                <a href="#gallery" class="nav-link hover:text-yellow-400 transition-colors">Gallery</a>
+                <a href="#news" class="nav-link hover:text-yellow-400 transition-colors">News & Events</a>
+                <a href="#contact" class="nav-link hover:text-yellow-400 transition-colors">Contact Us</a>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-white text-3xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden flex-col items-center bg-[#1A2B4D] py-4 mt-2 space-y-4 rounded-b-lg shadow-xl">
+            <a href="#home" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">Home</a>
+            <a href="#about" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">About Us</a>
+            <a href="#academics" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">Academics</a>
+            <a href="#admissions" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">Admissions</a>
+            <a href="#gallery" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">Gallery</a>
+            <a href="#news" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">News & Events</a>
+            <a href="#contact" class="text-white hover:text-yellow-400 transition-colors text-xl py-2 w-full text-center" onclick="toggleMobileMenu()">Contact Us</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area (Sections) -->
+    <main class="container mx-auto mt-8 p-4 md:p-0">
+
+        <!-- 1. Home Page Section (Hero Section) -->
+        <section id="home" class="page-section active bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <div class="text-center py-16 md:py-20">
+                <h2 class="text-4xl md:text-6xl font-extrabold text-[#1A2B4D] mb-6 leading-tight">Children are the Legacy of the Future</h2>
+                <p class="text-lg md:text-xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed">Darunasaih School nurtures knowledge and good character to build a leading generation.</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-6">
+                    <a href="#" id="hero-apply-btn" class="bg-[#FCA311] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-yellow-600 transition-all duration-300 shadow-lg transform hover:scale-105">
+                        <i class="fas fa-user-graduate mr-2"></i> Apply Now
+                    </a>
+                    <a href="#about" class="bg-transparent border-2 border-[#1A2B4D] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-[#1A2B4D] hover:text-white transition-all duration-300 shadow-lg transform hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <!-- Hero Image Carousel -->
+            <div id="hero-image-carousel" class="relative w-full overflow-hidden rounded-xl mt-12 shadow-2xl h-[400px] md:h-[550px]">
+                <div class="carousel-inner flex transition-transform duration-500 ease-in-out h-full">
+                    <!-- Images from 'images' folder -->
+                    <img src="images/hero1.png" alt="Happy Somali students running in schoolyard" class="w-full flex-shrink-0 object-cover h-full">
+                    <img src="images/hero2.png" alt="Students in a modern classroom" class="w-full flex-shrink-0 object-cover h-full">
+                    <img src="images/hero3.png" alt="Teacher interacting with students" class="w-full flex-shrink-0 object-cover h-full">
+                </div>
+                <!-- Carousel Navigation -->
+                <button class="carousel-btn absolute top-1/2 left-4 -translate-y-1/2 bg-black bg-opacity-40 text-white p-3 rounded-full z-10 hover:bg-opacity-60 transition-all duration-300" data-direction="prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn absolute top-1/2 right-4 -translate-y-1/2 bg-black bg-opacity-40 text-white p-3 rounded-full z-10 hover:bg-opacity-60 transition-all duration-300" data-direction="next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-10"></div>
+            </div>
+        </section>
+
+        <!-- 2. About Us Section -->
+        <section id="about" class="bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1A2B4D] mb-8 text-center">About Us</h2>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-4 flex items-center"><i class="fas fa-eye text-[#FCA311] mr-3"></i> Vision</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">Darunasaih School aspires to be a leader in education, fostering generations who become impactful contributors to their society and the world, equipped with modern knowledge and sound Islamic character.</p>
+
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-4 flex items-center"><i class="fas fa-bullseye text-[#FCA311] mr-3"></i> Mission</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">Our mission is to provide students with high-quality integrated education, utilizing a comprehensive curriculum that develops knowledge, skills, personality, and Islamic values. We create an inspiring, safe learning environment that allows every student to reach their full potential.</p>
+
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-4 flex items-center"><i class="fas fa-history text-[#FCA311] mr-3"></i> History & Values</h3>
+                    <p class="text-gray-700 mb-4 leading-relaxed">Darunasaih School was founded in [Year of Establishment, e.g., 2005] in response to the need for a school offering high-quality education rooted in Somali and Islamic culture and values. Our core values include:</p>
+                    <ul class="list-none text-gray-700 space-y-3 pl-0">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-[#1A2B4D] mr-3"></i> **Ethics:** Promoting good manners and respect.</li>
+                        <li class="flex items-center"><i class="fas fa-lightbulb text-[#1A2B4D] mr-3"></i> **Knowledge:** The continuous pursuit of knowledge and understanding.</li>
+                        <li class="flex items-center"><i class="fas fa-flask text-[#1A2B4D] mr-3"></i> **Innovation:** Fostering creative thinking and problem-solving.</li>
+                        <li class="flex items-center"><i class="fas fa-users text-[#1A2B4D] mr-3"></i> **Collaboration:** Working together to achieve common goals.</li>
+                        <li class="flex items-center"><i class="fas fa-hand-holding-heart text-[#1A2B4D] mr-3"></i> **Responsibility:** Instilling personal and social responsibility.</li>
+                    </ul>
+                </div>
+                <!-- About Us Image from 'images' folder -->
+                <div class="relative w-full h-80 md:h-[500px] rounded-xl overflow-hidden shadow-xl transform transition-transform duration-300 hover:scale-102">
+                    <img src="images/about-us.png" alt="Students learning in a group" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Academics Section -->
+        <section id="academics" class="bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1A2B4D] mb-8 text-center">Our Academic Programs</h2>
+            <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto text-center leading-relaxed">We offer a comprehensive and integrated curriculum designed to equip students with knowledge and skills for a bright future.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-child text-5xl text-[#FCA311] mb-6"></i>
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-3">Primary School</h3>
+                    <p class="text-gray-700 leading-relaxed">Grades 1 to 8. Focus on foundational knowledge, writing, reading, mathematics, and religious studies.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-user-graduate text-5xl text-[#FCA311] mb-6"></i>
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-3">Secondary School</h3>
+                    <p class="text-gray-700 leading-relaxed">Grades 9 to 12. A comprehensive curriculum preparing students for university and life.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl shadow-md flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-book text-5xl text-[#FCA311] mb-6"></i>
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-3">Integrated Curriculum</h3>
+                    <p class="text-gray-700 leading-relaxed">Combining Islamic studies with modern subjects like Somali, Arabic, English, Sciences, Mathematics, and Technology.</p>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center">
+                <h3 class="text-3xl font-semibold text-[#1A2B4D] mb-6">Our Curriculum</h3>
+                <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto text-center leading-relaxed">Our curriculum is integrated, including both Islamic and modern subjects. We ensure that students receive comprehensive knowledge that prepares them for the future.</p>
+                <ul class="list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left max-w-4xl mx-auto mb-10">
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-mosque text-[#1A2B4D] mr-3"></i> Islamic Studies</li>
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-language text-[#1A2B4D] mr-3"></i> Languages (Somali, Arabic, English)</li>
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-atom text-[#1A2B4D] mr-3"></i> Sciences (Biology, Chemistry, Physics)</li>
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-calculator text-[#1A2B4D] mr-3"></i> Mathematics</li>
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-globe-americas text-[#1A2B4D] mr-3"></i> Social Studies</li>
+                    <li class="flex items-center text-lg text-gray-700"><i class="fas fa-laptop-code text-[#1A2B4D] mr-3"></i> Technology</li>
+                </ul>
+                <a href="assets/sample-curriculum.pdf" download class="bg-[#FCA311] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-yellow-600 transition-all duration-300 shadow-lg transform hover:scale-105">
+                    <i class="fas fa-file-pdf mr-2"></i> Download Curriculum (PDF)
+                </a>
+            </div>
+
+            <div class="mt-16 text-center">
+                <h3 class="text-3xl font-semibold text-[#1A2B4D] mb-6">Meet Our Dedicated Teachers</h3>
+                <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto text-center leading-relaxed">Our passionate educators are committed to fostering a supportive and engaging learning environment.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="teachers-section">
+                    <!-- Teachers will be dynamically loaded here by JavaScript -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="images/teacher-ahmed.png" alt="Teacher Ahmed" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-[#FCA311]">
+                        <h4 class="font-bold text-xl text-[#1A2B4D] mb-1">Teacher Ahmed Ali</h4>
+                        <p class="text-gray-600 text-sm">Science & Math</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="images/teacher-fardowsa.png" alt="Teacher Fardowsa" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-[#FCA311]">
+                        <h4 class="font-bold text-xl text-[#1A2B4D] mb-1">Teacher Fardowsa Mohamed</h4>
+                        <p class="text-gray-600 text-sm">Somali & Islamic Studies</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="images/teacher-hassan.png" alt="Teacher Hassan" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-[#FCA311]">
+                        <h4 class="font-bold text-xl text-[#1A2B4D] mb-1">Teacher Hassan Noor</h4>
+                        <p class="text-gray-600 text-sm">History & Geography</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="images/teacher-sahra.png" alt="Teacher Sahra" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-[#FCA311]">
+                        <h4 class="font-bold text-xl text-[#1A2B4D] mb-1">Teacher Sahra Abdi</h4>
+                        <p class="text-gray-600 text-sm">English & Technology</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Admissions Section -->
+        <section id="admissions" class="bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1A2B4D] mb-8 text-center">Admissions</h2>
+            <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto text-center leading-relaxed">Learn about our enrollment process and requirements to join the Darunasaih family.</p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-semibold text-[#1A2B4D] mb-6 flex items-center"><i class="fas fa-clipboard-list text-[#FCA311] mr-3"></i> Enrollment Requirements</h3>
+                    <ul class="list-none text-gray-700 space-y-4 pl-0 mb-8">
+                        <li class="flex items-center text-lg"><i class="fas fa-check-circle text-[#1A2B4D] mr-3"></i> Completed application form.</li>
+                        <li class="flex items-center text-lg"><i class="fas fa-id-card text-[#1A2B4D] mr-3"></i> Two passport-sized photographs.</li>
+                        <li class="flex items-center text-lg"><i class="fas fa-file-alt text-[#1A2B4D] mr-3"></i> Copy of birth certificate.</li>
+                        <li class="flex items-center text-lg"><i class="fas fa-file-invoice text-[#1A2B4D] mr-3"></i> Copy of previous school report card (if applicable).</li>
+                        <li class="flex items-center text-lg"><i class="fas fa-certificate text-[#1A2B4D] mr-3"></i> Certificate of good conduct (from previous school, if applicable).</li>
+                    </ul>
+                    <div class="bg-yellow-50 border-l-4 border-[#FCA311] text-yellow-800 p-6 mb-8 rounded-lg" role="alert">
+                        <p class="font-bold text-xl mb-2">Important Note:</p>
+                        <p class="text-lg">Please check the school's official website or contact us for exact enrollment dates.</p>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <a href="#" id="admissions-apply-btn" class="bg-[#1A2B4D] text-white px-8 py-4 rounded-full text-xl font-bold hover:bg-blue-800 transition-all duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-2"></i> Apply Online
+                        </a>
+                        <a href="assets/sample-application-form.pdf" download class="bg-transparent border-2 border-[#1A2B4D] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-[#1A2B4D] hover:text-white transition-all duration-300 shadow-lg transform hover:scale-105 flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Download Form (PDF)
+                        </a>
+                    </div>
+                </div>
+                <!-- Admissions Image from 'images' folder -->
+                <div class="relative w-full h-80 md:h-[500px] rounded-xl overflow-hidden shadow-xl transform transition-transform duration-300 hover:scale-102">
+                    <img src="images/admissions.png" alt="Family at school admissions office" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Gallery Section -->
+        <section id="gallery" class="bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1A2B4D] mb-8 text-center">School Gallery</h2>
+            <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto text-center leading-relaxed">Explore moments from our vibrant school life, showcasing learning, play, and community spirit.</p>
+            <div id="school-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Gallery images from 'images' folder -->
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery1.png" alt="Classroom Scene" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">Classroom Learning</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery2.png" alt="Playground Fun" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">Playground Fun</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery3.png" alt="Graduation Ceremony" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">Graduation Ceremony</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery4.png" alt="School Library" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">School Library</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery5.png" alt="Science Class" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">Science Class</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-64 rounded-xl overflow-hidden shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <img src="images/gallery6.png" alt="School Building" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-xl font-semibold">Our Campus</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. News & Events Section -->
+        <section id="news" class="bg-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1A2B4D] mb-8 text-center">News & Events</h2>
+            <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto text-center leading-relaxed">Stay updated with the latest happenings, announcements, and upcoming events at Darunasaih School.</p>
+            <div id="news-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News and events will be dynamically loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- 7. Contact Us Section -->
+        <section id="contact" class="bg-[#1A2B4D] text-white rounded-xl shadow-lg p-6 md:p-12 mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8 text-center">Get In Touch With Us</h2>
+            <p class="text-lg text-gray-200 mb-12 max-w-3xl mx-auto text-center leading-relaxed">We'd love to hear from you! Reach out to us for inquiries, admissions, or any questions you may have.</p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-md text-gray-800">
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-6 text-center">Send Us a Message</h3>
+                    <form class="space-y-6" id="homepage-contact-form" action="https://formspree.io/f/mvgqzjjv" method="POST">
+                        <div>
+                            <label for="contact-name" class="block text-gray-700 text-lg font-medium mb-2">Your Full Name:</label>
+                            <input type="text" id="contact-name" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-gray-700 text-lg font-medium mb-2">Your Email:</label>
+                            <input type="email" id="contact-email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg" placeholder="Your Email" required>
+                        </div>
+                        <div>
+                            <label for="contact-subject" class="block text-gray-700 text-lg font-medium mb-2">Subject:</label>
+                            <input type="text" id="contact-subject" name="subject" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg" placeholder="Message Subject">
+                        </div>
+                        <div>
+                            <label for="contact-message" class="block text-gray-700 text-lg font-medium mb-2">Your Message:</label>
+                            <textarea id="contact-message" name="message" rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg" placeholder="Type your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-[#FCA311] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-yellow-600 transition-all duration-300 shadow-lg transform hover:scale-105">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Message
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-6 p-4 text-center text-lg rounded-lg hidden"></div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-md text-gray-800">
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-6 text-center">Contact Information</h3>
+                    <p class="flex items-start text-lg mb-4"><i class="fas fa-map-marker-alt text-[#FCA311] text-2xl mr-4 mt-1"></i> Gubta Barwaaqo, Mogadishu, Somalia</p>
+                    <p class="flex items-center text-lg mb-4"><i class="fas fa-phone text-[#FCA311] text-2xl mr-4"></i> +252 614 851584</p>
+                    <p class="flex items-center text-lg mb-4"><i class="fas fa-envelope text-[#FCA311] text-2xl mr-4"></i> deikhaomar@gmail.com</p>
+                    <p class="flex items-center text-lg mb-8"><i class="fas fa-clock text-[#FCA311] text-2xl mr-4"></i> Sat - Fri: 07:00 AM - 06:00 PM</p>
+                    
+                    <h3 class="text-2xl font-semibold text-[#1A2B4D] mb-6 text-center">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 text-3xl">
+                        <a href="https://facebook.com/darunasaihschool" target="_blank" class="text-[#1A2B4D] hover:text-[#FCA311] transition-colors duration-300 transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/darunasaihschool" target="_blank" class="text-[#1A2B4D] hover:text-[#FCA311] transition-colors duration-300 transform hover:scale-110"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/darunasaihschool" target="_blank" class="text-[#1A2B4D] hover:text-[#FCA311] transition-colors duration-300 transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Google Maps Embed -->
+            <div class="mt-12 rounded-xl overflow-hidden shadow-xl h-80 md:h-96">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.479606138641!2d45.32839951475355!3d2.0469399983457115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3d5f69c5e6d6c253%3A0xc0f1b2c3d1e9e0c!2sMogadishu%2C%20Somalia!5e0!3m2!1sen!2sus!4v1678901234567!5m2!1sen!2sus"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- "Back to Top" Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-[#1A2B4D] text-white p-4 rounded-full shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-110 hidden">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <!-- Apply Now Modal -->
+    <div id="apply-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-apply-modal">&times;</span>
+            <h2 class="text-3xl font-bold text-[#1A2B4D] mb-6 text-center">Apply to Darunasaih School</h2>
+            <p class="text-gray-700 mb-6 text-center">Please fill out this form to express your interest. Our admissions team will contact you shortly.</p>
+            <!-- Formspree Integration -->
+            <form class="space-y-5" id="apply-modal-form" action="https://formspree.io/f/mvgqzjjv" method="POST">
+                <div>
+                    <label for="modal-name" class="block text-gray-700 text-lg font-medium mb-2">Student's Full Name:</label>
+                    <input type="text" id="modal-name" name="Student's Name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                </div>
+                <div>
+                    <label for="modal-parent-name" class="block text-gray-700 text-lg font-medium mb-2">Parent/Guardian Name:</label>
+                    <input type="text" id="modal-parent-name" name="Parent/Guardian Name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                </div>
+                <div>
+                    <label for="modal-email" class="block text-gray-700 text-lg font-medium mb-2">Parent/Guardian Email:</label>
+                    <input type="email" id="modal-email" name="Parent/Guardian Email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                </div>
+                <div>
+                    <label for="modal-phone" class="block text-gray-700 text-lg font-medium mb-2">Phone Number:</label>
+                    <input type="text" id="modal-phone" name="Phone Number" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                </div>
+                <div>
+                    <label for="modal-grade" class="block text-gray-700 text-lg font-medium mb-2">Applying for Grade:</label>
+                    <select id="modal-grade" name="Applying for Grade" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg">
+                        <option value="">Select Grade</option>
+                        <option value="Primary 1">Primary 1</option>
+                        <option value="Primary 2">Primary 2</option>
+                        <option value="Primary 3">Primary 3</option>
+                        <option value="Primary 4">Primary 4</option>
+                        <option value="Primary 5">Primary 5</option>
+                        <option value="Primary 6">Primary 6</option>
+                        <option value="Primary 7">Primary 7</option>
+                        <option value="Primary 8">Primary 8</option>
+                        <option value="Secondary 9">Secondary 9</option>
+                        <option value="Secondary 10">Secondary 10</option>
+                        <option value="Secondary 11">Secondary 11</option>
+                        <option value="Secondary 12">Secondary 12</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-[#FCA311] text-[#1A2B4D] px-8 py-4 rounded-full text-xl font-bold hover:bg-yellow-600 transition-all duration-300 shadow-lg transform hover:scale-105">
+                    Submit Application
+                </button>
+            </form>
+            <div id="modal-form-message" class="mt-6 p-4 text-center text-lg rounded-lg hidden"></div>
+        </div>
+    </div>
+
+    <!-- News Detail Modal -->
+    <div id="news-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-news-modal">&times;</span>
+            <h2 id="news-modal-title" class="text-3xl font-bold text-[#1A2B4D] mb-4"></h2>
+            <p id="news-modal-meta" class="text-gray-600 text-sm mb-6"></p>
+            <img id="news-modal-image" src="" alt="" class="w-full h-64 object-cover rounded-lg mb-6">
+            <div id="news-modal-content" class="modal-body text-gray-700 leading-relaxed">
+                <!-- Full content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="bg-[#1A2B4D] text-white p-8 md:p-12 mt-12 shadow-inner">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+            <div class="col-span-full md:col-span-1">
+                <h3 class="text-3xl font-bold text-[#FCA311] mb-4">Darunasaih School</h3>
+                <p class="text-gray-300 leading-relaxed">Nurturing knowledge and good character to build a leading generation for Somalia and beyond.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#home" class="text-gray-300 hover:text-yellow-400 transition-colors">Home</a></li>
+                    <li><a href="#about" class="text-gray-300 hover:text-yellow-400 transition-colors">About Us</a></li>
+                    <li><a href="#academics" class="text-gray-300 hover:text-yellow-400 transition-colors">Academics</a></li>
+                    <li><a href="#admissions" class="text-gray-300 hover:text-yellow-400 transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white mb-4">Explore</h3>
+                <ul class="space-y-2">
+                    <li><a href="#gallery" class="text-gray-300 hover:text-yellow-400 transition-colors">Gallery</a></li>
+                    <li><a href="#news" class="text-gray-300 hover:text-yellow-400 transition-colors">News & Events</a></li>
+                    <li><a href="#contact" class="text-gray-300 hover:text-yellow-400 transition-colors">Contact Us</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white mb-4">Contact Info</h3>
+                <p class="flex items-start text-gray-300 mb-2"><i class="fas fa-map-marker-alt text-[#FCA311] mr-3 mt-1"></i> Gubta Barwaaqo, Mogadishu, Somalia</p>
+                <p class="flex items-center text-gray-300 mb-2"><i class="fas fa-phone text-[#FCA311] mr-3"></i> +252 614 851584</p>
+                <p class="flex items-center text-gray-300 mb-2"><i class="fas fa-envelope text-[#FCA311] mr-3"></i> deikhaomar@gmail.com</p>
+                <p class="flex items-center text-gray-300 mb-2"><i class="fas fa-clock text-[#FCA311] mr-3"></i> Sat - Fri: 07:00 AM - 06:00 PM</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+            <p class="text-gray-500 text-sm">&copy; <span id="current-year"></span> Darunasaih Primary and Secondary School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for dynamic features -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hamburger Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link'); // Desktop links for active class
+            const backToTopButton = document.getElementById('back-to-top');
+
+            window.toggleMobileMenu = () => {
+                mobileMenu.classList.toggle('active');
+                mobileMenuButton.querySelector('i').classList.toggle('fa-bars');
+                mobileMenuButton.querySelector('i').classList.toggle('fa-times');
+            };
+            mobileMenuButton.addEventListener('click', window.toggleMobileMenu);
+
+            // Smooth scrolling for internal links & Active Nav Link
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+
+                        // Update active class for navigation links
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const clickedNavLink = document.querySelector(`.nav-link[href="#${targetId}"]`);
+                        if (clickedNavLink) {
+                            clickedNavLink.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            // Set initial active class for home on load
+            document.querySelector('.nav-link[href="#home"]').classList.add('active');
+
+            // Back to Top Button visibility
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) { // Show button after scrolling 400px
+                    backToTopButton.classList.remove('hidden');
+                } else {
+                    backToTopButton.classList.add('hidden');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Hero Carousel Functionality
+            const carouselInner = document.querySelector('#hero-image-carousel .carousel-inner');
+            const carouselImages = carouselInner.querySelectorAll('img');
+            const totalImages = carouselImages.length;
+            let currentIndex = 0;
+            const carouselIndicatorsContainer = document.querySelector('.carousel-indicators');
+
+            // Create indicators
+            carouselImages.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('w-3', 'h-3', 'bg-white', 'bg-opacity-50', 'rounded-full', 'cursor-pointer', 'transition-colors', 'duration-300');
+                indicator.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+                carouselIndicatorsContainer.appendChild(indicator);
+            });
+
+            const updateCarousel = () => {
+                carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                // Update indicators
+                carouselIndicatorsContainer.querySelectorAll('div').forEach((indicator, index) => {
+                    if (index === currentIndex) {
+                        indicator.classList.remove('bg-opacity-50');
+                        indicator.classList.add('bg-opacity-100');
+                    } else {
+                        indicator.classList.remove('bg-opacity-100');
+                        indicator.classList.add('bg-opacity-50');
+                    }
+                });
+            };
+
+            // Initial update
+            updateCarousel();
+
+            // Carousel navigation buttons
+            document.querySelectorAll('.carousel-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const direction = e.target.dataset.direction;
+                    if (direction === 'next') {
+                        currentIndex = (currentIndex + 1) % totalImages;
+                    } else if (direction === 'prev') {
+                        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                    }
+                    updateCarousel();
+                });
+            });
+
+            // Auto-advance carousel
+            let carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalImages;
+                updateCarousel();
+            }, 5000); // Change image every 5 seconds
+
+            // Pause on hover
+            carouselInner.parentElement.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+            carouselInner.parentElement.addEventListener('mouseleave', () => {
+                carouselInterval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % totalImages;
+                    updateCarousel();
+                }, 5000);
+            });
+
+
+            // --- Dynamic Content Loading (News & Events) ---
+            const newsAndEventsData = [
+                {
+                    id: 'news1',
+                    title: "Semester Exams Begin Next Week",
+                    date: "July 15, 2025",
+                    category: "Academics",
+                    image: "images/news1.png", // Example image for news
+                    excerpt: "All students are hereby informed that semester examinations will officially commence next week. We wish everyone the best of luck!",
+                    fullContent: `
+                        <p>Dear students and parents,</p>
+                        <p>This is an important announcement regarding the upcoming semester examinations. All primary and secondary school students are hereby informed that the semester examinations will officially commence on <strong>Monday, July 22, 2025</strong>. The examination timetable has been posted on the school notice board and shared with students through their respective class teachers.</p>
+                        <h3>Key Information:</h3>
+                        <ul>
+                            <li><strong>Start Date:</strong> Monday, July 22, 2025</li>
+                            <li><strong>End Date:</strong> Friday, August 2, 2025</li>
+                            <li><strong>Venue:</strong> Respective classrooms</li>
+                            <li><strong>Materials:</strong> Students must bring their own stationery. Sharing of materials is strictly prohibited.</li>
+                            <li><strong>Attendance:</strong> Punctual attendance is mandatory for all examination sessions.</li>
+                        </ul>
+                        <p>We encourage all students to dedicate sufficient time to revision and preparation. Teachers are available to provide extra support and clarify any doubts during designated revision sessions. We wish all our students the very best of luck in their examinations and look forward to seeing their hard work pay off.</p>
+                        <p>For any further inquiries, please contact the school administration.</p>
+                    `
+                },
+                {
+                    id: 'news2',
+                    title: "Parents & Teachers Meeting Announced",
+                    date: "August 1, 2025",
+                    category: "Community",
+                    image: "images/news2.png", // Example image for news
+                    excerpt: "All parents are cordially invited to an important meeting to be held in the school hall. Please attend at the appointed time.",
+                    fullContent: `
+                        <p>Dear Parents and Esteemed Teachers,</p>
+                        <p>We are pleased to announce an important Parents & Teachers Meeting scheduled for <strong>Thursday, August 1, 2025, at 10:00 AM</strong> in the school main hall. This meeting is crucial for discussing student progress, academic performance, and addressing any concerns or suggestions you may have regarding your child's education and well-being.</p>
+                        <h3>Agenda Highlights:</h3>
+                        <ul>
+                            <li>Review of academic performance for the last semester.</li>
+                            <li>Discussion on upcoming school events and activities.</li>
+                            <li>Open forum for questions and suggestions.</li>
+                            <li>Individual teacher consultations (optional, after the main meeting).</li>
+                        </ul>
+                        <p>Your active participation is highly valued as it plays a significant role in fostering a strong partnership between the school and home. We look forward to your presence and constructive input.</p>
+                        <p>Best regards,<br>The School Administration</p>
+                    `
+                },
+                {
+                    id: 'news3',
+                    title: "Primary School Study Trip Planned",
+                    date: "August 10, 2025",
+                    category: "Events",
+                    image: "images/news3.png", // Example image for news
+                    excerpt: "Primary school students will go on an educational trip to [Trip Location]. Further details will be announced soon.",
+                    fullContent: `
+                        <p>Exciting news for our primary school students!</p>
+                        <p>Darunasaih Primary School is organizing an educational study trip to the <strong>National Museum of Somalia</strong> on <strong>Saturday, August 10, 2025</strong>. This trip aims to provide students with a hands-on learning experience about Somali history, culture, and natural heritage, complementing their classroom studies.</p>
+                        <h3>Trip Details:</h3>
+                        <ul>
+                            <li><strong>Date:</strong> Saturday, August 10, 2025</li>
+                            <li><strong>Destination:</strong> National Museum of Somalia, Mogadishu</li>
+                            <li><strong>Time:</strong> Departure from school at 8:30 AM, Return by 3:00 PM</li>
+                            <li><strong>Cost:</strong> [Cost per student, e.g., $10] (includes transportation and entry fees)</li>
+                            <li><strong>Consent Forms:</strong> Consent forms will be distributed by class teachers. Please ensure they are signed and returned by August 5, 2025.</li>
+                        </ul>
+                        <p>Students are advised to bring a packed lunch, water, and wear comfortable shoes. This trip promises to be both educational and fun, offering a memorable experience for our young learners.</p>
+                        <p>For more information, please contact your child's class teacher.</p>
+                    `
+                }
+            ];
+
+            const newsEventsContainer = document.getElementById('news-events-container');
+            if (newsEventsContainer) {
+                newsEventsContainer.innerHTML = ''; // Clear placeholders
+                newsAndEventsData.forEach(item => {
+                    const newsItem = document.createElement('div');
+                    newsItem.classList.add('bg-white', 'rounded-xl', 'shadow-md', 'overflow-hidden', 'transform', 'transition-transform', 'duration-300', 'hover:scale-102', 'hover:shadow-lg');
+                    newsItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-calendar-alt mr-2"></i>${item.date} <span class="ml-4"><i class="fas fa-tag mr-2"></i>${item.category}</span></p>
+                            <h3 class="text-xl font-semibold text-[#1A2B4D] mb-3">${item.title}</h3>
+                            <p class="text-gray-700 leading-relaxed mb-4">${item.excerpt}</p>
+                            <button data-news-id="${item.id}" class="read-more-btn text-[#FCA311] hover:underline font-semibold">Read More <i class="fas fa-arrow-right ml-1 text-sm"></i></button>
+                        </div>
+                    `;
+                    newsEventsContainer.appendChild(newsItem);
+                });
+            }
+
+            // JavaScript for current year in footer
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Contact Form Submission (using Formspree endpoint)
+            const contactForm = document.getElementById('homepage-contact-form');
+            const formMessage = document.getElementById('form-message');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+                    formMessage.textContent = 'Sending message...';
+                    formMessage.classList.remove('hidden');
+
+                    const formData = new FormData(contactForm);
+                    try {
+                        const response = await fetch(contactForm.action, {
+                            method: contactForm.method,
+                            body: formData,
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        if (response.ok) {
+                            formMessage.classList.add('bg-green-100', 'text-green-700');
+                            formMessage.textContent = 'Your message has been sent successfully! We will get back to you soon.';
+                            contactForm.reset(); // Clear form fields
+                        } else {
+                            const data = await response.json();
+                            if (data.errors) {
+                                formMessage.classList.add('bg-red-100', 'text-red-700');
+                                formMessage.textContent = data.errors.map(error => error.message).join(', ');
+                            } else {
+                                formMessage.classList.add('bg-red-100', 'text-red-700');
+                                formMessage.textContent = 'Oops! There was a problem sending your message. Please try again.';
+                            }
+                        }
+                    } catch (error) {
+                        formMessage.classList.add('bg-red-100', 'text-red-700');
+                        formMessage.textContent = 'Network error. Please check your internet connection and try again.';
+                        console.error('Error submitting contact form:', error);
+                    }
+                });
+            }
+
+            // --- Modal Functionality ---
+            const applyModal = document.getElementById('apply-modal');
+            const closeApplyModalBtn = document.getElementById('close-apply-modal');
+            const heroApplyBtn = document.getElementById('hero-apply-btn');
+            const admissionsApplyBtn = document.getElementById('admissions-apply-btn');
+            const applyModalForm = document.getElementById('apply-modal-form'); // Get the form by its ID
+            const modalFormMessage = document.getElementById('modal-form-message');
+
+            // Open Apply Modal
+            heroApplyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyModal.style.display = 'flex';
+                applyModalForm.reset(); // Reset form when opening
+                modalFormMessage.classList.add('hidden'); // Hide message when opening
+            });
+            admissionsApplyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyModal.style.display = 'flex';
+                applyModalForm.reset(); // Reset form when opening
+                modalFormMessage.classList.add('hidden'); // Hide message when opening
+            });
+
+            // Close Apply Modal
+            closeApplyModalBtn.onclick = () => {
+                applyModal.style.display = 'none';
+                modalFormMessage.classList.add('hidden'); // Hide message on close
+                applyModalForm.reset(); // Reset form
+            };
+            window.onclick = (event) => {
+                if (event.target === applyModal) {
+                    applyModal.style.display = 'none';
+                    modalFormMessage.classList.add('hidden'); // Hide message on close
+                    applyModalForm.reset(); // Reset form
+                }
+            };
+
+            // Apply Modal Form Submission (using Formspree endpoint)
+            applyModalForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                modalFormMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+                modalFormMessage.textContent = 'Submitting application...';
+                modalFormMessage.classList.remove('hidden');
+
+                const formData = new FormData(applyModalForm);
+                try {
+                    const response = await fetch(applyModalForm.action, {
+                        method: applyModalForm.method,
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        modalFormMessage.classList.add('bg-green-100', 'text-green-700');
+                        modalFormMessage.textContent = 'Your application has been submitted successfully! Our team will contact you soon.';
+                        applyModalForm.reset(); // Clear form fields
+                    } else {
+                        const data = await response.json();
+                        if (data.errors) {
+                            modalFormMessage.classList.add('bg-red-100', 'text-red-700');
+                            modalFormMessage.textContent = data.errors.map(error => error.message).join(', ');
+                        } else {
+                            modalFormMessage.classList.add('bg-red-100', 'text-red-700');
+                            modalFormMessage.textContent = 'Oops! There was a problem submitting your application. Please try again.';
+                        }
+                    }
+                } catch (error) {
+                    modalFormMessage.classList.add('bg-red-100', 'text-red-700');
+                    modalFormMessage.textContent = 'Network error. Please check your internet connection and try again.';
+                    console.error('Error submitting application form:', error);
+                }
+            });
+
+
+            // News Detail Modal Functionality
+            const newsDetailModal = document.getElementById('news-detail-modal');
+            const closeNewsModalBtn = document.getElementById('close-news-modal');
+            const newsModalTitle = document.getElementById('news-modal-title');
+            const newsModalMeta = document.getElementById('news-modal-meta');
+            const newsModalImage = document.getElementById('news-modal-image');
+            const newsModalContent = document.getElementById('news-modal-content');
+
+            document.querySelectorAll('.read-more-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const newsId = e.target.dataset.newsId;
+                    const newsItem = newsAndEventsData.find(item => item.id === newsId);
+
+                    if (newsItem) {
+                        newsModalTitle.textContent = newsItem.title;
+                        newsModalMeta.innerHTML = `<i class="fas fa-calendar-alt mr-2"></i>${newsItem.date} <span class="ml-4"><i class="fas fa-tag mr-2"></i>${newsItem.category}</span>`;
+                        newsModalImage.src = newsItem.image;
+                        newsModalImage.alt = newsItem.title;
+                        newsModalContent.innerHTML = newsItem.fullContent;
+                        newsDetailModal.style.display = 'flex';
+                    }
+                });
+            });
+
+            closeNewsModalBtn.onclick = () => {
+                newsDetailModal.style.display = 'none';
+            };
+            window.onclick = (event) => {
+                if (event.target === newsDetailModal) {
+                    newsDetailModal.style.display = 'none';
+                }
+            };
+
+        });
+    </script>
+</body>
+</html>
